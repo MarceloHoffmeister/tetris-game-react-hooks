@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { createStage } from '../gameHelpers'
-import Stage from "../components/Stage";
 
 export const useStage = (player, resetPlayer) => {
     const [stage, setStage] = useState(createStage())
@@ -12,7 +11,7 @@ export const useStage = (player, resetPlayer) => {
         const sweepRows = newStage =>
             newStage.reduce((ack, row) => {
                 if (row.findIndex(cell => cell[0] === 0) === -1) {
-                    setRowsCleared(prev => prev++)
+                    setRowsCleared(prev => ++prev)
                     ack.unshift(new Array(newStage[0].length).fill([0, 'clear']))
                     return ack
                 }
@@ -46,7 +45,7 @@ export const useStage = (player, resetPlayer) => {
         }
 
         setStage(prev => updateStage(prev))
-    }, [player, resetPlayer])
+    }, [player, resetPlayer, rowsCleared])
 
     return [stage, setStage, rowsCleared]
 }
